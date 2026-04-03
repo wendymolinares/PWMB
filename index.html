@@ -1,90 +1,318 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wendy Molinares | AI Strategy & Intelligent Systems</title>
-    <meta name="description" content="Professional portfolio of Wendy Molinares, specializing in AI strategy, human-centered technology, and the development of intelligent systems.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-    
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="styles.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>e-Ssistant | AI-Powered Lead Generation System</title>
+<meta name="description" content="e-Ssistant responds to your inbox, SMS, and phone calls. It schedules appointments, sends reminders, and pre-qualifies leads — 24/7." />
+<meta property="og:title" content="e-Ssistant | AI-Powered Lead Generation System" />
+<meta property="og:description" content="e-Ssistant responds to your inbox, SMS, and phone calls. It schedules appointments, sends reminders, and pre-qualifies leads — 24/7." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="e-Ssistant | AI-Powered Lead Generation System" />
+<meta name="twitter:description" content="e-Ssistant responds to your inbox, SMS, and phone calls. It schedules appointments, sends reminders, and pre-qualifies leads — 24/7." />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=2952');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='QbNnW4';
+  var apiBase='https://paymegpt.com';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Thank you for purchasing '+pName.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'.</p><button onclick="document.getElementById(\'payment-success-overlay\').remove();window.history.replaceState({},\'\',window.location.pathname);" style="padding:12px 32px;font-size:16px;font-weight:600;background:#16a34a;color:white;border:none;border-radius:8px;cursor:pointer;">Continue</button></div>';
+      document.body.appendChild(overlay);
+    }
+  });
+})();
+</script>
+<script data-donation>
+(function(){
+  var slug='QbNnW4';
+  var apiBase='https://paymegpt.com';
+  var currency='USD';
+  var minAmt=100;var maxAmt=1000000;
+  function fmtD(c){return new Intl.NumberFormat('en-US',{style:'currency',currency:currency}).format(c/100);}
+  window.__donationConfig={currency:currency,presets:[25,50,100,250],minAmount:100/100,maxAmount:1000000/100,formatAmount:fmtD,buttonColor:'#4f46e5',buttonText:'Donate Now',thankYouMessage:'Thank you for your generous donation!'};
+  window.__processDonation=function(amountCents,email,name,donorMessage){
+    if(!amountCents||amountCents<minAmt){alert('Minimum donation is '+fmtD(minAmt));return Promise.reject('below_min');}
+    if(amountCents>maxAmt){alert('Maximum donation is '+fmtD(maxAmt));return Promise.reject('above_max');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    fetch(apiBase+'/api/landing-pages/public/'+slug+'/donate/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:name||'',amountCents:amountCents,message:donorMessage||'',successUrl:successBase+'?donation=success&email='+encodeURIComponent(email)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?donation=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process donation');}
+    }).catch(function(){alert('Failed to connect to payment server.');});
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('donation')==='success'){
+      var overlay=document.createElement('div');overlay.id='donation-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Thank You!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Thank you for your generous donation!</p><button onclick="document.getElementById(\'donation-success-overlay\').remove();window.history.replaceState({},\'\',window.location.pathname);" style="padding:12px 32px;font-size:16px;font-weight:600;background:#16a34a;color:white;border:none;border-radius:8px;cursor:pointer;">Continue</button></div>';
+      document.body.appendChild(overlay);
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#fafafa] text-slate-800 antialiased">
+<body>
+<section class="hero">
+  <img src="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1775183692451_e-Ssistant_PDF_esp.png" alt="e-Ssistant" class="hero-logo" style="aspect-ratio: 3.3333; object-fit: cover; object-position: center;">
+  <h1>Your leads are talking.<br><em>Nobody's answering.</em></h1>
+  <p class="hero-sub">e-Ssistant picks up the phone, replies to DMs, sends the texts, books the calls, and filters the noise — so every lead gets handled and you close more deals.</p>
+  <a href="#contact" class="cta">Learn More</a>
+</section>
+<div class="sep"></div>
+<section class="s" id="features">
+<div class="container">
+  <div class="sh reveal"><div class="sl">What it does</div><h2 class="st">Six ways it makes you money<br>while you're not looking</h2></div>
+  <div class="feat-grid reveal">
+    <div class="fc"><div class="fi-icon">💬</div><h3>Inbox &amp; DMs</h3><p>Every Instagram DM, Facebook message, and email gets a response — instantly, intelligently, 24/7. No lead left hanging.</p></div>
+    <div class="fc"><div class="fi-icon">📱</div><h3>SMS</h3><p>Two-way texting that feels human. Answers questions, handles objections, and moves people down the pipeline.</p></div>
+    <div class="fc"><div class="fi-icon">📞</div><h3>Phone</h3><p>Picks up inbound calls with a natural AI voice. Qualifies the caller. Routes the hot ones straight to you.</p></div>
+    <div class="fc"><div class="fi-icon">📅</div><h3>Scheduling</h3><p>Books calls directly into your calendar. Sends confirmations. Sends reminders. Shows up like a real assistant.</p></div>
+    <div class="fc"><div class="fi-icon">✅</div><h3>Qualification</h3><p>Asks the right questions at the right time. Separates buyers from browsers so you only talk to people ready to pay.</p></div>
+    <div class="fc"><div class="fi-icon">🔄</div><h3>Follow-up</h3><p>Personalized nudges by email, text, and DM. Because the fortune is in the follow-up — and humans forget.</p></div>
+  </div>
+</div>
+</section>
+<section class="s hbg">
+<div class="container">
+  <div class="sh reveal"><div class="sl">How it works</div><h2 class="st">Live in days. Not months.</h2></div>
+  <div class="stp reveal">
+    <div class="st-i"><div class="st-n">1</div><h3>Reach out</h3><p>Tell us about your business. We'll tell you exactly how e-Ssistant fits.</p></div>
+    <div class="st-i"><div class="st-n">2</div><h3>We build it</h3><p>Custom AI assistant, your voice, your rules. We handle the setup.</p></div>
+    <div class="st-i"><div class="st-n">3</div><h3>It goes to work</h3><p>Leads start getting answered, qualified, and booked — around the clock.</p></div>
+  </div>
+</div>
+</section>
+<section class="s tbg">
+<div class="container">
+  <div class="sh reveal"><div class="sl">Proof</div><h2 class="st">Don't take our word for it</h2></div>
+  <div class="tc reveal">
+    <div class="tq">“</div>
+    <blockquote>Wendy is a tremendous bot-building talent for both Instagram DM Automation and Messenger. She brings fresh ideas, a can-do attitude, and strives to make the bots a success. She ensures the builds are compliant and in line with strategy, keeps up to date with industry changes, and understands many platforms — not just chat marketing ones — including Zapier, Active Campaign, Ontraport, and more. I enthusiastically recommend Wendy for Instagram and Facebook Messenger Automation.</blockquote>
+    <div class="ta">Angela Allan</div>
+    <div class="tr">Mads Collective Group</div>
+  </div>
+</div>
+</section>
+<section class="s cbg">
+<div class="container">
+  <div class="sh reveal"><div class="sl">Credentials</div><h2 class="st">Certified by Meta</h2></div>
+  <div class="badge-w reveal">
+    <div data-iframe-width="400" data-iframe-height="270" data-share-badge-id="3c04ed8e-4b00-4213-9549-8e9b9a4fe71b" data-share-badge-host="https://www.credly.com"></div>
+  </div>
+</div>
+</section>
+<section class="s ctbg" id="contact">
+<div class="container">
+  <div class="ci">
+    <div class="reveal"><div class="sl">Contact</div><h2 class="st">Let's talk</h2><p class="ss">Tell us what you sell and who you sell it to. We'll show you what e-Ssistant can do for you.</p></div>
+    <form id="contactForm" class="reveal">
+      <div class="fr">
+        <div class="fld"><label>Name</label><input type="text" name="contactName" required="" placeholder="Your name"></div>
+        <div class="fld"><label>Email</label><input type="email" name="contactEmail" required="" placeholder="you@company.com"></div>
+      </div>
+      <div class="fr">
+        <div class="fld"><label>Phone</label><input type="tel" name="contactPhone" placeholder="+1 (555) 000-0000"></div>
+        <div class="fld"><label>Company</label><input type="text" name="company" placeholder="Your company"></div>
+      </div>
+      <div class="fld"><label>Message <span style="color:var(--t5)">(optional)</span></label><textarea name="message" placeholder="What do you sell? Who's your audience?"></textarea></div>
+      <button type="submit" class="fsub">Learn More</button>
+      <p class="fn">By submitting, you agree to be contacted about e-Ssistant.</p>
+    </form>
+    <div class="form-thankyou" id="thankYou"><h3>Thank you</h3><p>We'll be in touch shortly.</p></div>
+  </div>
+</div>
+</section>
+<footer>
+  <div class="foot-inner">
+    <div class="fb-brand">
+      <img src="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1775183708237_e-Ssistant_PDF_esp.png" alt="e-Ssistant" class="fl" style="aspect-ratio: 3.3333; object-fit: cover; object-position: center;">
+      <div class="ft"><h4>e-Ssistant by Play With My Bot</h4><p>Powered by AI and <a href="https://paymegpt.com" target="_blank" rel="noopener">PayMeGPT</a></p></div>
+    </div>
+    <div class="fcopy">© 2026</div>
+  </div>
+</footer>
+<script type="text/javascript" async="" src="//cdn.credly.com/assets/utilities/embed.js"></script>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <span class="text-lg font-semibold tracking-tighter">WENDY MOLINARES</span>
-            <div class="space-x-8 text-sm font-medium text-slate-600">
-                <a href="#about" class="hover:text-black transition">About</a>
-                <a href="#focus" class="hover:text-black transition">Focus</a>
-                <a href="#connect" class="hover:text-black transition">Connect</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero -->
-    <header class="pt-32 pb-20 px-6">
-        <div class="max-w-4xl mx-auto text-center fade-in">
-            <h1 class="text-5xl md:text-7xl mb-6 leading-tight">Architecting the intersection of <span class="italic text-slate-500">human insight</span> and <span class="italic text-slate-500">artificial intelligence.</span></h1>
-            <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-light">Wendy Molinares is a strategist and builder focused on the responsible deployment and creative application of intelligent systems.</p>
-            <a href="#connect" class="bg-slate-900 text-white px-8 py-3 rounded-full hover:bg-slate-700 transition">Explore Collaborative Opportunities</a>
-        </div>
-    </header>
-
-    <!-- About -->
-    <section id="about" class="py-24 bg-white">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl mb-8">Thoughtful Work</h2>
-            <div class="prose prose-lg text-slate-600">
-                <p class="mb-6">In an era where technology evolves at an unprecedented pace, I focus on the clarity of purpose. My work sits at the confluence of product innovation, systems engineering, and research-led strategy.</p>
-                <p>I believe that building AI is not merely a technical challenge but a human-centric endeavor. By bridging the gap between complex model capabilities and practical application, I help organizations navigate the complexities of digital transformation with elegance and intentionality.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Focus Areas -->
-    <section id="focus" class="py-24 px-6">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl mb-16 text-center">Core Focus Areas</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                {[
-                    { title: "AI Strategy", desc: "Crafting long-term roadmaps for integrating intelligent systems into core business operations." },
-                    { title: "Intelligent Systems", desc: "Architecting scalable workflows that prioritize performance, reliability, and ethical standards." },
-                    { title: "Product Thinking", desc: "Applying rigorous design and user-centric methodologies to AI-native product development." },
-                    { title: "Research & Innovation", desc: "Synthesizing emerging trends into actionable insights and proof-of-concept experiments." },
-                    { title: "Strategic Advisory", desc: "Guiding teams through the challenges of technology adoption and organizational change." },
-                    { title: "Collaborative Synergy", desc: "Fostering cross-disciplinary environments where technical and non-technical teams thrive." }
-                ].map(item => (
-                    <div class="p-8 bg-white border border-slate-100 shadow-sm rounded-lg hover:shadow-md transition">
-                        <h3 class="text-xl mb-4 text-slate-900">{item.title}</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </section>
-
-    <!-- Connect -->
-    <section id="connect" class="py-24 bg-slate-900 text-white">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-3xl mb-6">Let's Connect</h2>
-            <p class="mb-10 text-slate-400">While my digital home is evolving, you can explore my ongoing projects, code explorations, and technical documentation via my GitHub hub.</p>
-            <div class="space-y-4">
-                <a href="#" class="inline-block border border-slate-700 px-8 py-3 rounded-full hover:bg-white hover:text-slate-900 transition">View GitHub Repository</a>
-                <p class="text-xs text-slate-500 pt-6 italic">(GitHub link will be linked upon DNS finalization)</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-12 text-center text-slate-400 text-sm">
-        <p>&copy; 2024 Wendy Molinares. All rights reserved.</p>
-        <p class="mt-2">wendymolinares.com | Professional Portfolio</p>
-    </footer>
 
   <script src="script.js"></script>
-</body>
-</html>
+</body></html>
